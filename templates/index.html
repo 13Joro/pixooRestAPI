@@ -8,7 +8,7 @@
     <style>
         body { text-align: center; padding: 50px; background-color: #f8f9fa; }
         .counter-box { padding: 20px; background: white; border-radius: 10px; margin-bottom: 20px; box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); }
-        .counter { font-size: 2rem; margin: 10px; }
+        .counter { font-size: 2rem; margin: 10px; font-weight: bold; }
         .btn-lg { font-size: 1.5rem; }
     </style>
 </head>
@@ -18,7 +18,6 @@
 
     <div class="container">
         <div class="row">
-            <!-- Counter 1 -->
             <div class="col-md-4">
                 <div class="counter-box">
                     <h3>Repaired Rooms</h3>
@@ -28,7 +27,6 @@
                 </div>
             </div>
 
-            <!-- Counter 2 -->
             <div class="col-md-4">
                 <div class="counter-box">
                     <h3>Inventory</h3>
@@ -38,7 +36,6 @@
                 </div>
             </div>
 
-            <!-- Counter 3 -->
             <div class="col-md-4">
                 <div class="counter-box">
                     <h3>Number of Computers</h3>
@@ -49,7 +46,6 @@
             </div>
         </div>
 
-        <!-- Submit Button -->
         <button class="btn btn-primary btn-lg mt-3" onclick="submitCounts()">Submit to Divoom</button>
         <p id="status" class="mt-3"></p>
     </div>
