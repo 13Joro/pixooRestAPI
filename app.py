@@ -15,20 +15,22 @@ def send_to_divoom(message):
     payload = {
         "Command": "Draw/SendHttpText",
         "TextId": 1,
-        "x": 2,
-        "y": 2,
+        "x": 0,  # Align text to start
+        "y": 16,  # Lowered text position for visibility
         "dir": 0,
-        "font": 15,  # Larger font for better visibility
+        "font": 10,  # Adjust font size
         "color": 16777215,  # White color
         "textString": message
     }
     try:
         response = requests.post(DIVOOM_URL, json=payload)
+        print(f"Sent to Divoom: {message}")  # Debugging message
         print("Divoom Response:", response.text)  # Debugging response
         return response.status_code == 200
     except requests.exceptions.RequestException as e:
         print("Error sending to Divoom:", e)
         return False
+
 
 @app.route('/')
 def index():
