@@ -3,81 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Divoom Counter</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <style>
-        body { text-align: center; padding: 50px; background-color: #f8f9fa; }
-        .counter-box { padding: 20px; background: white; border-radius: 10px; margin-bottom: 20px; box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); }
-        .counter { font-size: 2rem; margin: 10px; font-weight: bold; }
-        .btn-lg { font-size: 1.5rem; }
-    </style>
+    <title>Postman Test</title>
 </head>
 <body>
-
-    <h1>Divoom Pixoo64 Counter</h1>
-
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="counter-box">
-                    <h3>Repaired Rooms</h3>
-                    <div class="counter" id="count1">{{ counts['count1'] }}</div>
-                    <button class="btn btn-success btn-lg" onclick="updateCount('count1', 'increase')">+</button>
-                    <button class="btn btn-danger btn-lg" onclick="updateCount('count1', 'decrease')">-</button>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="counter-box">
-                    <h3>Inventory</h3>
-                    <div class="counter" id="count2">{{ counts['count2'] }}</div>
-                    <button class="btn btn-success btn-lg" onclick="updateCount('count2', 'increase')">+</button>
-                    <button class="btn btn-danger btn-lg" onclick="updateCount('count2', 'decrease')">-</button>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="counter-box">
-                    <h3>Number of Computers</h3>
-                    <div class="counter" id="count3">{{ counts['count3'] }}</div>
-                    <button class="btn btn-success btn-lg" onclick="updateCount('count3', 'increase')">+</button>
-                    <button class="btn btn-danger btn-lg" onclick="updateCount('count3', 'decrease')">-</button>
-                </div>
-            </div>
-        </div>
-
-        <button class="btn btn-primary btn-lg mt-3" onclick="submitCounts()">Submit to Divoom</button>
-        <p id="status" class="mt-3"></p>
-    </div>
+    <h2>Send API Request</h2>
+    <button onclick="sendPostRequest()">Send Request</button>
+    <p id="response"></p>
 
     <script>
-        function updateCount(counter, action) {
-            fetch("/update", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ counter: counter, action: action })
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById("count1").innerText = data.count1;
-                document.getElementById("count2").innerText = data.count2;
-                document.getElementById("count3").innerText = data.count3;
-            })
-            .catch(error => console.error("Error:", error));
-        }
+        async function sendPostRequest() {
+            const data = {
+                "Command": "Draw/SendHttpText",
+                "textString": "Hello"
+            };
 
-        function submitCounts() {
-            fetch("/submit", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" }
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById("status").innerText = data.success ? "Updated on Divoom!" : "Failed to update Divoom.";
-            })
-            .catch(error => console.error("Error:", error));
+            try {
+                const response = await fetch("http://10.108.32.244/post", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+                document.getElementById("response").innerText = JSON.stringify(result, null, 2);
+            } catch (error) {
+                console.error("Error:", error);
+                document.getElementById("response").innerText = "Request failed.";
+            }
         }
     </script>
-
 </body>
 </html>
