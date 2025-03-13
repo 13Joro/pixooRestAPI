@@ -3,36 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Postman Test</title>
-</head>
-<body>
-    <h2>Send API Request</h2>
-    <button onclick="sendPostRequest()">Send Request</button>
-    <p id="response"></p>
-
+    <title>Divoom API Interface</title>
     <script>
-        async function sendPostRequest() {
-            const data = {
-                "Command": "Draw/SendHttpText",
-                "textString": "Hello"
+        function sendApiRequest() {
+            const requestData = { 
+                Command: "Draw/SendHttpText",
+                textString: "Hello, Divoom!"
             };
-
-            try {
-                const response = await fetch("http://10.108.32.244/post", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(data)
-                });
-
-                const result = await response.json();
-                document.getElementById("response").innerText = JSON.stringify(result, null, 2);
-            } catch (error) {
-                console.error("Error:", error);
-                document.getElementById("response").innerText = "Request failed.";
-            }
+            
+            fetch("/submit", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(requestData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log("Response:", data);
+                document.getElementById("responseMessage").innerText = "API Request Successful!";
+            })
+            .catch(error => {
+                console.error("Request failed:", error);
+                document.getElementById("responseMessage").innerText = "Request failed. Check console for details.";
+            });
         }
     </script>
+</head>
+<body>
+    <h1>Divoom API Interface</h1>
+    <button onclick="sendApiRequest()">Send API Request</button>
+    <p id="responseMessage"></p>
 </body>
 </html>

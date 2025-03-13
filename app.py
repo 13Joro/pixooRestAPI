@@ -9,6 +9,13 @@ def index():
     counts = 0  # Default value or fetch from a source
     return render_template('index.html', counts=counts)
 
+@app.route('/submit', methods=['POST'])
+def submit():
+    data = request.json
+    print("Received data:", data)  # Debugging log
+    return jsonify({"message": "API request received successfully!"})
+
+
 
 
 @app.route('/post', methods=['POST'])
